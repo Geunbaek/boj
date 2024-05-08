@@ -36,19 +36,20 @@ fn main() {
         }
     }
 
+    let mut prefix = vec![0];
+
+    for num in dp {
+        let l = prefix.len();
+        prefix.push(num + prefix[l - 1]);
+    }
+
     loop {
         let n: usize = input.next().unwrap().parse().unwrap();
         if n == 0 {
             break;
         }
         
-        let mut answer = 0;
-
-        for i in n + 1..=2 * n {
-            if dp[i] == 1 {
-                answer += 1;
-            }
-        }
+        let answer = prefix[2 * n + 1] - prefix[n + 1];
         writeln!(output, "{}", answer);
     }
 
