@@ -2,6 +2,7 @@ import re
 import math
 
 def calculate_distance(path):
+    path = path.replace("\n"," ")
     x, y = 0, 0
 
     pattern = re.compile(r'([wens])(\d{1,2})')
@@ -21,10 +22,9 @@ def calculate_distance(path):
         elif direction == 'w':
             x -= distance
     
-    distance_from_start = (x ** 2 + y ** 2) ** 0.5
+    distance_from_start = math.sqrt(x**2 + y**2)
     
     return round(distance_from_start, 2)
 
-s = input().lower()
-
+s = input()
 print("%.2f" % calculate_distance(s))  
