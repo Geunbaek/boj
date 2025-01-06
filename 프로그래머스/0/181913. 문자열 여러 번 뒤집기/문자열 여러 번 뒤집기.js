@@ -1,9 +1,7 @@
 const reverse = (arr, s, e) => {
     const temp = arr.slice(s, e + 1).reverse();
     
-    for (let i = s; i <= e; i ++) {
-        arr[i] = temp[i - s];
-    }
+    arr.splice(s, e - s + 1, ...temp);
 }
 
 function solution(my_string, queries) {
