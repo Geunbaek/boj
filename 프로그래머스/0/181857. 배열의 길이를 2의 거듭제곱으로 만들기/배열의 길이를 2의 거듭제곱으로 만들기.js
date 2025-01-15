@@ -4,9 +4,6 @@ function getBaseLog(x, y) {
 
 function solution(arr) {
     const maxLength = Math.pow(2, Math.ceil(getBaseLog(2, arr.length)));
-    
-    while (arr.length < maxLength) {
-        arr.push(0);
-    }
-    return arr;
+
+    return arr.concat(Array.from({length: maxLength - arr.length}, () => 0 ));
 }
