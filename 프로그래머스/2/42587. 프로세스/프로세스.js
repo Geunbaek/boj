@@ -1,34 +1,22 @@
-function max(array){
-    var ret = 0;
-    for(var elem of array){
-        if(ret < elem[1]){
-            ret = elem[1];
-        }
-    }
-    return ret;
-}
-
 function solution(priorities, location) {
-    var answer = 0;
-    var priorityIndex = []
+    priorities = priorities.map((priority, index) => ({
+        priority, index
+    }))
     
-    for(var i = 0; i < priorities.length ; i ++){
-        priorityIndex.push([i, priorities[i]]);
-    }
-    
-    var maxValue = max(priorityIndex)
-
-    while (priorityIndex.length > 0){
-        var elem = priorityIndex.shift();
-        if(elem[1] === maxValue){
-            maxValue = max(priorityIndex)
-            answer += 1
-            if (elem[0]===location){
-                return answer
-            }
+    let count = 0;
+    while (priorities.length !== 0) {
+        const max = Math.max(...priorities.map(priority => priority.priority));
+        
+        while (priorities[0].priority !== max) {
+            priorities.push(priorities.shift())
         }
-        else{
-            priorityIndex.push(elem)
-        } 
-    }    
+        
+        const {priority, index} = priorities.shift();
+        count += 1;
+        
+        if (index === location) {
+            return count;
+        }
+    }
+    return -1;
 }
