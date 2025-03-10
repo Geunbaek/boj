@@ -1,31 +1,24 @@
 function solution(genres, plays) {
     const n = genres.length;
-    const genreMap = {};
+    const genrePlaysMap = new Map();
+    const genreSongsMap = new Map();
     
     for (let index = 0; index < n; index ++) {
         const genre = genres[index];
         const play = plays[index];
-        
-        if (genre in genreMap) {
-            const { total, songs } = genreMap[genre];
-            genreMap[genre] = { 
-                total: total + play, 
-                songs: [...songs, {play, index}] 
-            };
-        } else {
-            genreMap[genre] = { total: play, songs: [{play, index}]};
-        }
+    
+        genrePlaysMap.set(genre, (genrePlaysMap.get(genre) || 0) + play)
+        genreSongsMap.set(genre, (genreSongsMap.get(genre) || []).concat({play, index}))
     }
+    const sortedGenrePlays = [...genrePlaysMap.entries()].sort((a, b) => b[1] - a[1]);
     
-    const sorted = Object.entries(genreMap).sort((a, b) => {
-        const [aGenre, aInfo] = a;
-        const [bGenre, bInfo] = b;
-        return bInfo.total - aInfo.total;
-    })
+    const answer = sortedGenrePlays.map(([genre]) => {
+        return genreSongsMap
+            .get(genre)
+            .sort((a, b) => b.play - a.play)
+            .slice(0, 2)
+            .map(song => song.index);
+    }).flat();
     
-    return sorted.map(info => {
-        const {songs} = info[1];
-        const sortedSongs = songs.sort((a, b) => b.play - a.play);
-        return sortedSongs.slice(0, 2).map(song => song.index);
-    }).flat()
+    return answer
 }
