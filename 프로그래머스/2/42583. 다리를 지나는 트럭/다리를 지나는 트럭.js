@@ -3,10 +3,6 @@ function solution(bridge_length, weight, truck_weights) {
     let totalWeight = 0;
     let time = 0;
     
-    // bridge_length 최대 10,000
-    // weight 최대 10,000
-    // truck_weights 최대 10,000
-    // -> 최대 시간 == 10,000 * 10,000 = 1,000,000,000
     while (truck_weights.length !== 0) {
         totalWeight -= bridge.shift();
         time += 1;
@@ -28,3 +24,12 @@ function solution(bridge_length, weight, truck_weights) {
     }
     return time;
 }
+
+// bridge_length 최대 10,000
+// weight 최대 10,000
+// truck_weights 최대 10,000
+// -> 최대 시간 == 10,000 * 10,000 = 1,000,000,000
+const t0 = performance.now();
+console.log(solution(10_000, 10_000, new Array(10_000).fill(10_000)))
+const t1 = performance.now();
+console.log(`${t1 - t0} ms`);
