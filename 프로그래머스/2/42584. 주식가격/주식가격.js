@@ -11,11 +11,24 @@ function solution(prices) {
         stack.push({p:price, i: index})
     })
     
-  while (stack.length !== 0) {
-      const {p, i} = stack.pop();
-      answer[i] = prices.length - i - 1;
-  }
+    while (stack.length !== 0) {
+        const {p, i} = stack.pop();
+        answer[i] = prices.length - 1 - i;
+    }
 
   
     return answer;
 }
+
+/*
+[]  answer [0, 0, 0, 0, 0]
+[(1, 0)]  answer [0, 0, 0, 0, 0]
+[(1, 0), (2, 1)]  answer [0, 0, 0, 0, 0]
+[(1, 0), (2, 1), (3, 2)]  answer [0, 0, 0, 0, 0]
+[(1, 0), (2, 1), (3, 2)] -> [(1, 0), (2, 1), (2, 3)]  answer [0, 0, 1, 0, 0]
+[(1, 0), (2, 1), (2, 3), (3, 4)]  answer [0, 0, 1, 0, 0]
+[(1, 0), (2, 1), (2, 3)]  answer [0, 0, 1, 0, 0]
+[(1, 0), (2, 1)]  answer [0, 0, 1, 1, 0]
+[(1, 0)]  answer [0, 3, 1, 1, 0]
+[]  answer [4, 3, 1, 1, 0]
+*/
