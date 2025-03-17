@@ -37,6 +37,17 @@ class DoublyLinkedList {
         this.tail = this.tail.next;
     }
 
+    pushFront = (value) => {
+        if (this.head === null || this.tail === null) {
+            this.head = new ListNode(value, null);
+            this.tail = this.head;
+            return;
+        }
+
+        this.head.prev = new ListNode(value, null, this.head);
+        this.head = this.head.prev;
+    }
+
     pop = () => {
         // node 가 하나도 존재하지 않는 경우
         if (this.head === null || this.tail === null) return null
