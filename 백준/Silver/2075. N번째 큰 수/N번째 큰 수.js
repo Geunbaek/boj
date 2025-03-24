@@ -17,9 +17,7 @@ rl.on("line", (input) => {
     for (let i = 0; i < temp.length; i++) {
       heap.push(Number(temp[i]));
     }
-
-    heap.sort((a, b) => b - a);
-    while (heap.length > n) heap.pop();
+    heap.sort((a, b) => b - a).splice(n, heap.length - n);
   }
 }).on("close", () => {
   console.log(heap[n - 1]);
