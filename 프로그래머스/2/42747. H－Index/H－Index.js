@@ -1,18 +1,19 @@
 /*
-발표한 논문, 피인용횟수 둘 중 최소값이 h-index 입니다.
+h-index : 발표한 논문 수, 인용횟수 둘 중 최소값
 */
 
-
 function solution(citations) {
-    let maxHIndex = 0;
-    citations.sort((a, b) => b - a);
+    citations.sort((a, b) => a - b);
     
-    for (let i = 0; i < citations.length; i ++) {
+    const n = citations.length;
+    for (let i = 0; i < n; i ++) {
         const citation = citations[i];
-        const hIndex = Math.min(citation, i + 1)
-   
-        maxHIndex = Math.max(maxHIndex, hIndex);
+        const restCite = n - i;
+        
+        if (citation >= restCite) {
+            return restCite;
+        }
     }
     
-    return maxHIndex;
+    return 0;
 }
