@@ -1,19 +1,17 @@
 function solution(routes) {
-    routes.sort((a, b) => b[0] - a[0])
+    routes.sort((a, b) => a[1] - b[1] || a[0] - b[0])
     
     const stack = []
-    let answer = 0
-    console.log(routes)
-    for (const [u, v] of routes) {
+    for (const [start, end] of routes) {
         if (stack.length === 0) {
-            stack.push([u, v])
+            stack.push(end)
             continue
         }
         
-        const [lu, lv] = stack.at(-1)
+        const lastEnd = stack[stack.length - 1]
         
-        if (lu > v) {
-            stack.push([u, v])
+        if (lastEnd < start) {
+            stack.push(end)
         }        
     } 
     
