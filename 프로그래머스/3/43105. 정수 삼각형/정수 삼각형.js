@@ -14,5 +14,5 @@ function solution(triangle) {
             }
         }
     }
-    return Math.max(...triangle.at(-1));
+    return Math.max(...triangle[row - 1]);
 }
