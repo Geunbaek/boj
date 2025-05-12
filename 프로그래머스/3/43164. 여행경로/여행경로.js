@@ -1,35 +1,25 @@
 function solution(tickets) {
+    const dfs = (now) => {
+        const nextPath = graph.get(now) || [];
+        while (nextPath.length !== 0) {
+            dfs(nextPath.shift());
+        }
+        answer.push(now);
+    }
+    
+    
     const graph = new Map();
+    
+    tickets.sort((a, b) => a[1].localeCompare(b[1]));
     
     for (let i = 0; i < tickets.length; i++) {
         const [a, b] = tickets[i];
         const path = graph.get(a) || [];
-        path.push([b, i]);
+        path.push(b);
         graph.set(a, path);
     }
     
-    for (const [key, value] of graph) {
-        value.sort((a, b) => a[0].localeCompare(b[0]))
-    }
-    const q = [
-        { path: ["ICN"], visited: new Set(), now: "ICN" }
-    ];
-    
-    while (q.length !== 0) {
-        const {path, visited, now} = q.shift();
-        
-        if (visited.size === tickets.length) {
-            return path;
-        }
-        
-        for (const [next, i] of graph.get(now) || []) {
-            if (visited.has(i)) continue;
-            q.push({
-                path: path.concat(next),
-                visited: new Set([...visited].concat(i)),
-                now: next
-            })
-        }
-    }
-    return answer;
+    const answer = [];
+    dfs("ICN")
+    return answer.reverse();
 }
