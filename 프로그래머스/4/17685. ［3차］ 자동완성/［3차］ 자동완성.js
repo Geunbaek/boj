@@ -1,54 +1,21 @@
-class TrieNode {
-    constructor(value, isEnd = false){
-        this.value = value;
-        this.count = 1;
-        this.children = {};
-        this.isEnd = isEnd;
-    }
-}
-
-class Trie {
-    constructor(){
-        this.root = new TrieNode(null);
-    }
-    
-    insert(word) {
-        let node = this.root;
-        for (let i = 0; i < word.length; i++) {
-            const char = word[i];
-            if (!(char in node.children)) {
-                node.children[char] = new TrieNode(char, i === word.length - 1);
-            } else {
-                node.children[char]['count'] += 1;
-            }
-            node = node.children[char]
-        }
-    }
-    
-    search(word) {
-        let node = this.root;
-        for (let i = 0; i < word.length; i++) {
-            const char = word[i];
-            if (node.children[char]['count'] === 1) {
-                return i + 1;
-            } 
-
-            node = node.children[char]
-        }
-        return word.length
-    }
-}
-
 function solution(words) {
-    const trie = new Trie()
-    
-    for (const word of words) {
-        trie.insert(word);
-    }
-    
-    let answer = 0;
-    for (const word of words) {
-        answer += trie.search(word);
-    }
-    return answer;
+
+    words.sort((a, b) => a < b ? -1 : a > b ? 1 : 0);
+
+    let r = 0, a, b, c;
+
+    words.forEach((w, i) => {
+        const right = words[i + 1] || words[i - 1];
+        const left = words[i - 1] || words[i + 1];
+
+        for (let i = 1, l = w.length; i <= l; i++) {
+            r++;
+            a = w.substring(0, i);
+            if (a != left.substring(0, i) && a != right.substring(0, i))
+                return;
+        }
+    });
+
+    return r;
+
 }
