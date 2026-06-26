@@ -39,7 +39,7 @@ def solution(n, paths, gates, summits):
         
     gate_set = set(gates)
     summits_set = set(summits)
-    paths.sort(key = lambda x: x[-1])
+    paths.sort(key = lambda x: (x[-1], x[0] in summits_set, x[1] in summits_set))
     p = [i for i in range(n + 1)]
     mst = [[] for _ in range(n + 1)]
     
