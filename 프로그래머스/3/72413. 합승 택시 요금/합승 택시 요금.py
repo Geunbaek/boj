@@ -1,33 +1,35 @@
 import heapq
-INF = float("inf")
-def dij(start, graph):
-    dist = [INF for _ in range(len(graph))]
-    h = []
-    heapq.heappush(h, (0, start))
-    
-    while h:
-        curCost, now = heapq.heappop(h)
-        if dist[now] > curCost:
-            dist[now] = curCost
-            for _next, cost in graph[now]:
-                if curCost + cost < dist[_next]:
-                    heapq.heappush(h, (curCost + cost, _next))
-    return dist[1:]
-    
 
 def solution(n, s, a, b, fares):
+    def dij(start):
+        h = [(0, start)]
+        dists = [float('inf') for _ in range(n + 1)]
+            
+        while h:
+            cost, now = heapq.heappop(h)
+            
+            if dists[now] > cost:
+                dists[now] = cost
+                
+                for _next, w in graph[now]:
+                    if dists[_next] > w + cost:
+                        heapq.heappush(h, (w + cost, _next))
+        return dists
+    
     graph = [[] for _ in range(n + 1)]
     
-    for x, y, c in fares:
-        graph[x].append((y, c))
-        graph[y].append((x, c))
+    for u, v, w in fares:
+        graph[u].append((v, w))
+        graph[v].append((u, w))
+        
+    s_dists = dij(s)
     
-    dist = dij(s, graph)
-    _min = float("inf")
-    for i in range(n):
-        totalDist = dist[i]
-        subDist = dij(i + 1, graph)
-        totalDist += subDist[a-1] + subDist[b-1]
-        _min = min(_min, totalDist)
+    answer = s_dists[a] + s_dists[b]
     
-    return _min
+    for c in range(1, n + 1):
+        if c == s:
+            continue
+        
+        c_dists = dij(c)
+        answer = min(answer, s_dists[c] + c_dists[a] + c_dists[b])
+    return answer
